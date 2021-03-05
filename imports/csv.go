@@ -238,7 +238,9 @@ func LoadFromCSV(ctx context.Context, r io.ReadSeeker, options ...CSVLoadOptions
 					case int64:
 						i, err := strconv.ParseInt(v, 10, 64)
 						if err != nil {
-							return nil, fmt.Errorf("can't force string: %s to int64. row: %d field: %s", v, row-1, name)
+							if len(v) > 0 {
+								return nil, fmt.Errorf("can't force string: %s to int64. row: %d field: %s", v, row-1, name)
+							}
 						}
 						insertVals = append(insertVals, i)
 					case float64:
